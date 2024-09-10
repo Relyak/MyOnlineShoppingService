@@ -15,7 +15,9 @@ public class AccountService implements IAccountService{
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
     }
-    public List<Account> getByCustomer_id(Customer customer){
+
+
+    public List<Account> getByCustomer_id(Long customer){
 
         return accountRepository.findByOwnerId(customer);
     }

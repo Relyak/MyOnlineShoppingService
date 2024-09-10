@@ -22,4 +22,8 @@ public class Customer {
   @ToString.Exclude
   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
   private List<Account> accountList;
+
+  public Customer(Long id) {
+    this.id = id;
+  }
 }

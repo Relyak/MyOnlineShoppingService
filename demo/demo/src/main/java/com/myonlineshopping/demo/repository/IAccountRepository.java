@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IAccountRepository extends JpaRepository<Account,Long> {
-    public List<Account> findByOwnerId(Customer customer); //esto por nomenclatura
+    public List<Account> findByOwnerId(Long id); //esto por nomenclatura
     public void deleteByOwner(Customer customer); //esto por nomenclatura
     @Modifying
     @Query("UPDATE Account a SET a.balance = a.balance + :cantidad WHERE a.id = :cuentaId AND a.owner = :propietario")
