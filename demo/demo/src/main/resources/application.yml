@@ -1,6 +1,6 @@
 spring:
   application.name: "demo"
-  profiles.active: "prod"
+  profiles.active: "dev"
 
 --- #prod
 spring:
@@ -48,6 +48,6 @@ server:
   port: 9900
 logging:
   level.root: DEBUG
-  file.path: "/var/"
+  file.path: "/var/logs/accounts.log"
 ---
 
