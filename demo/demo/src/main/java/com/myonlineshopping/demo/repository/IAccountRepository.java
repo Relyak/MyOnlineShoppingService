@@ -7,17 +7,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface IAccountRepository extends JpaRepository<Account,Long> {
-    public List<Account> findByCustomer_id(Customer customer); //esto por nomenclatura
-    public void deleteByCustomer(Customer customer); //esto por nomenclatura
+    public List<Account> findByOwnerId(Customer customer); //esto por nomenclatura
+    public void deleteByOwner(Customer customer); //esto por nomenclatura
     @Modifying
-    @Query("UPDATE Account a SET a.balance = a.balance + :cantidad WHERE a.id = :cuentaId AND a.propietario = :propietario")
+    @Query("UPDATE Account a SET a.balance = a.balance + :cantidad WHERE a.id = :cuentaId AND a.owner = :propietario")
     public void addMoney(@Param("cuentaId") Long cuentaId, @Param("cantidad") int cantidad, @Param("propietario") Customer customer);
     @Modifying
-    @Query("UPDATE Account a SET a.balance = a.balance - :cantidad WHERE a.id = :cuentaId AND a.propietario = :propietario")
+    @Query("UPDATE Account a SET a.balance = a.balance - :cantidad WHERE a.id = :cuentaId AND a.owner = :propietario")
     public void withdrawMoney(@Param("cuentaId") Long cuentaId, @Param("cantidad") int cantidad, @Param("propietario") Customer customer);
     /*
     -> Listar todas las cuentas y una cuenta de manera individual. findAll. findById

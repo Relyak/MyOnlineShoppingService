@@ -17,7 +17,7 @@ public class AccountService implements IAccountService{
     }
     public List<Account> getByCustomer_id(Customer customer){
 
-        return accountRepository.findByCustomer_id(customer);
+        return accountRepository.findByOwnerId(customer);
     }
     public Optional<Account> getAccount(Long id){
         return accountRepository.findById(id);
@@ -35,7 +35,7 @@ public class AccountService implements IAccountService{
         accountRepository.deleteById(id);
     }
     public void deleteByCustomer(Customer customer){
-        accountRepository.deleteByCustomer(customer);
+        accountRepository.deleteByOwner(customer);
     }
     public void addMoney(Long cuentaId,int cantidad, Customer customer){
         accountRepository.addMoney(cuentaId,cantidad,customer);
