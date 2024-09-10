@@ -20,6 +20,6 @@ public class Customer {
   private String email;
 
   @ToString.Exclude
-  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
   private List<Account> accountList;
 }

@@ -3,9 +3,6 @@ package com.myonlineshopping.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 
 
@@ -23,7 +20,7 @@ public class Account {
     private int balance;
     private String opening_date;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "owner_id")
     private Customer owner;
 
 
