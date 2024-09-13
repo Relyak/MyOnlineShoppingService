@@ -21,9 +21,9 @@ public interface IAccountService {
 
     public void deleteAccountById(Long ownerId);
 
-    public void deleteByCustomer(Customer customer);
+    public void deleteByCustomer(Long customer);
 
-    public void addMoney(Long cuentaId,  Long customerId,Integer cantidad);
+    public Account addMoney(Long cuentaId,  Long customerId,Integer cantidad);
 
-    public void withdrawMoney(Long cuentaId, int cantidad, Customer customer) throws Exception;
+    public Account withdrawMoney(Long cuentaId,  Long customerId,Integer cantidad) throws Exception;
 }

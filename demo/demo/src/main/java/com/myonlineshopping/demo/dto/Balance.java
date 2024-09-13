@@ -1,4 +1,4 @@
-package com.myonlineshopping.demo.model;
+package com.myonlineshopping.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingresos {
+public class Balance {
     private Long idCuenta;
     private Long idPropietario;
     private Integer dinero;

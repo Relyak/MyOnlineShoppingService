@@ -54,16 +54,19 @@ public class AccountService implements IAccountService{
     public void deleteAccountById(Long id){
         accountRepository.deleteById(id);
     }
-    public void deleteByCustomer(Customer customer){
-        accountRepository.deleteByOwner(customer);
+    public void deleteByCustomer(Long customer){
+        accountRepository.deleteByOwnerId(customer);
     }
     @Transactional
-    public void addMoney(Long cuentaId, Long idCustomer,Integer dinero){
+    public Account addMoney(Long cuentaId, Long idCustomer,Integer dinero){
         accountRepository.addMoney(cuentaId,idCustomer,dinero);
+        return accountRepository.findById(cuentaId).get();
     }
-    public void withdrawMoney(Long cuentaId,int cantidad, Customer customer) throws Exception{
+    @Transactional
+    public Account withdrawMoney(Long cuentaId,Long cantidad, Integer customer) throws Exception{
         if((accountRepository.findById(cuentaId).get().getBalance())>=cantidad){
             accountRepository.withdrawMoney(cuentaId,cantidad,customer);
+            return accountRepository.findById(cuentaId).get();
         }else
             throw new Exception();
     }
