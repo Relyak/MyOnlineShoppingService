@@ -26,4 +26,6 @@ public interface IAccountService {
     public Account addMoney(Long cuentaId,  Long customerId,Integer cantidad);
 
     public Account withdrawMoney(Long cuentaId,  Long customerId,Integer cantidad) throws Exception;
+    public Integer totalBalance(Long id);
+    public boolean checkPrestamo(Integer amount,Integer balance);
 }

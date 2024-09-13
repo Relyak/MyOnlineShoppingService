@@ -1,5 +1,6 @@
 package com.myonlineshopping.demo.services;
 
+import com.myonlineshopping.demo.controller.AccountController;
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.model.Customer;
 import com.myonlineshopping.demo.repository.IAccountRepository;
@@ -70,5 +71,16 @@ public class AccountService implements IAccountService{
         }else
             throw new Exception();
     }
+    public Integer totalBalance(Long id){
 
+        return accountRepository.totalBalance(id);
+    }
+
+
+    public boolean checkPrestamo(Integer amount, Integer balance) {
+
+        if(balance*(AccountController.PORCENTAJE_MAXIMO)>=amount){
+            return true;
+        }else return false;
+    }
 }

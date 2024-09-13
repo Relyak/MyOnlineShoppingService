@@ -5,6 +5,7 @@ import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.dto.Balance;
 import com.myonlineshopping.demo.services.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/account", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 
 public class AccountController {
+    public static final double PORCENTAJE_MAXIMO = 0.80;
     @Autowired
     IAccountService iAccountService;
 
@@ -70,6 +72,17 @@ public class AccountController {
     public ResponseEntity<AccountDTO> withDrawBalance(@RequestBody Balance balance) throws Exception {
         Account acc = iAccountService.withdrawMoney(balance.getIdCuenta(), balance.getIdPropietario(), balance.getDinero());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AccountDTO.createAccountDto(acc));
+    }
+    @GetMapping(value="/owner/{ownerId}/prestamo/{cantidad}")
+    public ResponseEntity<String> checkPrestamo(@PathVariable Long ownerId,@PathVariable Integer cantidad){
+        Integer balanceTotal = iAccountService.totalBalance(ownerId);
+        boolean prestamo = iAccountService.checkPrestamo(cantidad,balanceTotal);
+        if(prestamo){
+            return ResponseEntity.ok("Es valido");
+        }else{
+            return ResponseEntity.ok("No valido");
+        }
+
     }
 
 }

@@ -17,11 +17,7 @@ public interface IAccountRepository extends JpaRepository<Account,Long> {
     @Modifying
     @Query("UPDATE Account a SET a.balance = a.balance - :cantidad WHERE a.id = :cuentaId AND a.owner.id = :propietario")
     public void withdrawMoney(@Param("cuentaId") Long cuentaId,@Param("propietario") Long customer,@Param("cantidad") Integer cantidad) ;
-    /*
-    -> Listar todas las cuentas y una cuenta de manera individual. findAll. findById
-	-> Listar las cuentas de un usuario.
-	-> Crear, actualizar, borrar cuentas.
-	-> Añadir dinero al balance, indicando cuenta, cantidad y propietario.
-	-> Hacer un retiro, indicando cuenta, cantidad y propietario.
-	-> Borrar todas las cuentas de un usuario*/
+    @Query("Select SUM(a.balance) FROM Account a WHERE a.owner.id= :id")
+    public Integer totalBalance(@Param("id") Long id);
+
 }
