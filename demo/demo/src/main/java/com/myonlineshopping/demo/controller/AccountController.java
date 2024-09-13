@@ -33,7 +33,12 @@ public class AccountController {
 
     @GetMapping("/owner/{ownerId}")
     public ResponseEntity<List<AccountDTO>> getCuentasDeUnUsuario(@PathVariable @Min(0) Long ownerId) {
-        List<Account> account = iAccountService.getByCustomer_id(ownerId);
+        List<Account> account = null;
+        try {
+            account = iAccountService.getByCustomer_id(ownerId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         List<AccountDTO> accountDTOs = account.stream().map(a -> AccountDTO.createAccountDto(a)).collect(Collectors.toList());
 
         return ResponseEntity.ok(accountDTOs);

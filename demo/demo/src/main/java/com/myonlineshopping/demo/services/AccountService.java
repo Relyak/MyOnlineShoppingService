@@ -24,7 +24,8 @@ public class AccountService implements IAccountService{
 
 
 
-    public List<Account> getByCustomer_id(Long customer){
+    public List<Account> getByCustomer_id(Long customer) throws Exception{
+
         return accountRepository.findByOwnerId(customer);
     }
     public Optional<Account> getAccount(Long id){
