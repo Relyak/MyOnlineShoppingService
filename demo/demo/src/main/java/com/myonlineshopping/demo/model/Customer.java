@@ -1,5 +1,6 @@
 package com.myonlineshopping.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Customer {
   private String email;
 
   @ToString.Exclude
+  @JsonIgnore
   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
   private List<Account> accountList;
 

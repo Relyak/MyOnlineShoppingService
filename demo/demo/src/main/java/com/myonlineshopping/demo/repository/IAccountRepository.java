@@ -13,8 +13,8 @@ public interface IAccountRepository extends JpaRepository<Account,Long> {
     public List<Account> findByOwnerId(Long id); //esto por nomenclatura
     public void deleteByOwner(Customer customer); //esto por nomenclatura
     @Modifying
-    @Query("UPDATE Account a SET a.balance = a.balance + :cantidad WHERE a.id = :cuentaId AND a.owner = :propietario")
-    public void addMoney(@Param("cuentaId") Long cuentaId, @Param("cantidad") int cantidad, @Param("propietario") Customer customer);
+    @Query("UPDATE Account a SET a.balance = a.balance + :cantidad WHERE a.id = :cuentaId AND a.owner.id = :propietario")
+    public void addMoney(@Param("cuentaId") Long cuentaId, @Param("propietario") Long customer, @Param("cantidad") Integer cantidad);
     @Modifying
     @Query("UPDATE Account a SET a.balance = a.balance - :cantidad WHERE a.id = :cuentaId AND a.owner = :propietario")
     public void withdrawMoney(@Param("cuentaId") Long cuentaId, @Param("cantidad") int cantidad, @Param("propietario") Customer customer);

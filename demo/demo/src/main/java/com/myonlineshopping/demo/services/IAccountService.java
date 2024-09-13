@@ -13,17 +13,17 @@ public interface IAccountService {
 
     public Optional<Account> getAccount(Long id);
 
-    public void saveAccount(Account account);
+    public void saveAccount(Account account,Long ownerId);
 
-    public void updateAccount(Account account);
+    public Account updateAccount(Account account,Long ownerId);
 
-    public void deleteAccount(Account account);
+    public void deleteAccount(Long accountId);
 
-    public void deleteAccountById(Long id);
+    public void deleteAccountById(Long ownerId);
 
     public void deleteByCustomer(Customer customer);
 
-    public void addMoney(Long cuentaId, int cantidad, Customer customer);
+    public void addMoney(Long cuentaId,  Long customerId,Integer cantidad);
 
     public void withdrawMoney(Long cuentaId, int cantidad, Customer customer) throws Exception;
 }

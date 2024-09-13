@@ -3,33 +3,51 @@ package com.myonlineshopping.demo.services;
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.model.Customer;
 import com.myonlineshopping.demo.repository.IAccountRepository;
+import com.myonlineshopping.demo.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 @Service
 public class AccountService implements IAccountService{
     @Autowired
     IAccountRepository accountRepository;
+    @Autowired
+    ICustomerRepository iCustomerRepository;
 
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
     }
 
 
-    public List<Account> getByCustomer_id(Long customer){
 
+    public List<Account> getByCustomer_id(Long customer){
         return accountRepository.findByOwnerId(customer);
     }
     public Optional<Account> getAccount(Long id){
         return accountRepository.findById(id);
     }
-    public void saveAccount(Account account){
+    public void saveAccount(Account account,Long ownerId){
+        //TODO  PONER EXCEPCIÓN SI NO EXISTE
+        Customer cus = iCustomerRepository.findById(ownerId).get();
+        account.setOwner(cus);
         accountRepository.save(account);
     }
-    public void updateAccount(Account account){
-        accountRepository.save(account);
+    public Account updateAccount(Account account,Long accountId){
+         //TODO  PONER EXCEPCIÓN SI NO EXISTE
+        //TODO A VER SI HACE FALTA CAMBIAR MÁS PARAMETROS DE LA CUENTA
+        Account acc= accountRepository.findById(accountId).get();
+        acc.setBalance(account.getBalance());
+        return accountRepository.save(acc);
     }
+
+    @Override
+    public void deleteAccount(Long accountId) {
+
+    }
+
     public void deleteAccount(Account account){
         accountRepository.delete(account);
     }
@@ -39,8 +57,9 @@ public class AccountService implements IAccountService{
     public void deleteByCustomer(Customer customer){
         accountRepository.deleteByOwner(customer);
     }
-    public void addMoney(Long cuentaId,int cantidad, Customer customer){
-        accountRepository.addMoney(cuentaId,cantidad,customer);
+    @Transactional
+    public void addMoney(Long cuentaId, Long idCustomer,Integer dinero){
+        accountRepository.addMoney(cuentaId,idCustomer,dinero);
     }
     public void withdrawMoney(Long cuentaId,int cantidad, Customer customer) throws Exception{
         if((accountRepository.findById(cuentaId).get().getBalance())>=cantidad){
