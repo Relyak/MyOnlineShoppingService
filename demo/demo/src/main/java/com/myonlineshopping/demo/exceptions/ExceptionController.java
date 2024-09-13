@@ -40,6 +40,12 @@ public class ExceptionController {
         return errors;
     }
 
+    @ExceptionHandler(CustomerNotfoundException.class)
+    public ResponseEntity<ExceptionMessage> customerNotfoundExceptionHandler(AccountNotfoundException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionMessage(e.getId(), e.getMessage()));
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
@@ -48,4 +54,4 @@ public class ExceptionController {
 
 
 
-    }
+}
