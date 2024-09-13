@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IAccountService {
     public List<Account> getAllAccounts();
 
-    public List<Account> getByCustomer_id(Long customer) throws Exception;
+    public List<Account> getByCustomer_id(Long customer);
 
     public Optional<Account> getAccount(Long id);
 

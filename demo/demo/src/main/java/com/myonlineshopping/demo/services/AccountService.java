@@ -1,6 +1,7 @@
 package com.myonlineshopping.demo.services;
 
 import com.myonlineshopping.demo.controller.AccountController;
+import com.myonlineshopping.demo.exceptions.AccountNotfoundException;
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.model.Customer;
 import com.myonlineshopping.demo.repository.IAccountRepository;
@@ -24,11 +25,19 @@ public class AccountService implements IAccountService{
 
 
 
-    public List<Account> getByCustomer_id(Long customer) throws Exception{
+    public List<Account> getByCustomer_id(Long customer) {
 
-        return accountRepository.findByOwnerId(customer);
+        List<Account> accounts = accountRepository.findByOwnerId(customer);
+
+        if(!accounts.isEmpty()) {
+            return accounts;
+        } else {
+            throw new AccountNotfoundException();
+        }
     }
     public Optional<Account> getAccount(Long id){
+
+
         return accountRepository.findById(id);
     }
     public void saveAccount(Account account,Long ownerId){

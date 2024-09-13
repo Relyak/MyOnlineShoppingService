@@ -1,6 +1,7 @@
 package com.myonlineshopping.demo.controller;
 
 import com.myonlineshopping.demo.dto.AccountDTO;
+import com.myonlineshopping.demo.exceptions.AccountNotfoundException;
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.dto.Balance;
 import com.myonlineshopping.demo.services.IAccountService;
@@ -32,13 +33,11 @@ public class AccountController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public ResponseEntity<List<AccountDTO>> getCuentasDeUnUsuario(@PathVariable @Min(0) Long ownerId) {
+    public ResponseEntity<List<AccountDTO>> getCuentasDeUnUsuario(@PathVariable @Min(0) Long ownerId) throws AccountNotfoundException {
         List<Account> account = null;
-        try {
-            account = iAccountService.getByCustomer_id(ownerId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+
+        account = iAccountService.getByCustomer_id(ownerId);
+
         List<AccountDTO> accountDTOs = account.stream().map(a -> AccountDTO.createAccountDto(a)).collect(Collectors.toList());
 
         return ResponseEntity.ok(accountDTOs);
