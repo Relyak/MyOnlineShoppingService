@@ -1,142 +1,124 @@
-   <h1>Guía para Peticiones</h1>
-    <div>
-        <h2>/account/owner/{ownerId}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/owner/{id}</code></p>
-        <p><strong>GET:</strong> Obtiene cuentas de un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>200 -> OK</li>
-            <li>404 -> NOT FOUND</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>Resultado:</strong></p>
-        <pre>
-[
+# Guía para Peticiones
+
+## /account/owner/{ownerId}
+
+- **Ejemplo:** `http://localhost:9900/account/owner/{id}`
+- **Método:** `GET` - Obtiene cuentas de un usuario
+- **Respuestas:**
+  - `200 OK`
+  - `404 NOT FOUND`
+- **ACCEPT:** `JSON/XML`
+- **Resultado:**
+
+    ```json
+    [
+        {
+            "id": 1,
+            "type": "Personal",
+            "balance": 1000,
+            "opening_date": "2023-10-01",
+            "ownerId": {id}
+        }
+    ]
+    ```
+
+## /account/owner/{id}
+
+- **Ejemplo:** `http://localhost:9900/account/owner/{id}`
+- **Método:** `POST` - Crea una cuenta asociada a un usuario
+- **Respuestas:**
+  - `201 CREATED`
+  - `400 BAD REQUEST`
+- **ACCEPT:** `JSON/XML`
+- **CONTENT-TYPE:** `JSON`
+- **BODY:**
+
+    ```json
     {
-        "id": 1,
-        "type": "Personal",
-        "balance": 1000,
-        "opening_date": "2023-10-01",
-        "ownerId": {id}
+        "type": "string",
+        "balance": "int",
+        "opening_date": "YYYY-MM-DD"
     }
-]
-        </pre>
-    </div>
-    
-  <div>
-        <h2>/account/owner/{id}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/owner/{id}</code></p>
-        <p><strong>POST:</strong> Crea una cuenta asociada a un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>201 -> CREATED</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>CONTENT-TYPE:</strong> {JSON}</p>
-        <p><strong>BODY:</strong></p>
-        <pre>
-{
-    "type": {string},
-    "balance": {int},
-    "opening_date": {YYYY-MM-DD}
-}
-        </pre>
-  </div>
-    
-    <div>
-        <h2>/account/owner/{id}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/owner/{id}</code></p>
-        <p><strong>DELETE:</strong> Elimina todas las cuentas de un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>204 -> NO CONTENT</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-    </div>
+    ```
 
-    <div>
-        <h2>/account/{accountId}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/{id}</code></p>
-        <p><strong>DELETE:</strong> Elimina una cuenta</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>204 -> NO CONTENT</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-    </div>
+## /account/owner/{id}
 
-    <div>
-        <h2>/account/{accountId}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/{id}</code></p>
-        <p><strong>PUT:</strong> Modifica una cuenta de un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>202 -> ACCEPTED</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>CONTENT-TYPE:</strong> {JSON}</p>
-        <p><strong>BODY:</strong></p>
-        <pre>
-{
-    "balance": {int}
-}
-        </pre>
-    </div>
+- **Ejemplo:** `http://localhost:9900/account/owner/{id}`
+- **Método:** `DELETE` - Elimina todas las cuentas de un usuario
+- **Respuestas:**
+  - `204 NO CONTENT`
+  - `400 BAD REQUEST`
 
-    <div>
-        <h2>/account/account/add</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/add</code></p>
-        <p><strong>PUT:</strong> Añadir balance a una cuenta de un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>202 -> ACCEPTED</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>CONTENT-TYPE:</strong> {JSON}</p>
-        <p><strong>BODY:</strong></p>
-        <pre>
-{
-    "idCuenta": {int},
-    "idPropietario": {int},
-    "dinero": {int}
-}
-        </pre>
-    </div>
+## /account/{accountId}
 
-    <div>
-        <h2>/account/account/withdraw</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/withdraw</code></p>
-        <p><strong>PUT:</strong> Retirar balance de una cuenta de un usuario</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>202 -> ACCEPTED</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>CONTENT-TYPE:</strong> {JSON}</p>
-        <p><strong>BODY:</strong></p>
-        <pre>
-{
-    "idCuenta": {int},
-    "idPropietario": {int},
-    "dinero": {int}
-}
-        </pre>
-    </div>
+- **Ejemplo:** `http://localhost:9900/account/{id}`
+- **Método:** `DELETE` - Elimina una cuenta
+- **Respuestas:**
+  - `204 NO CONTENT`
+  - `400 BAD REQUEST`
 
-    <div>
-        <h2>/account/owner/{id}/prestamo/{cantidad}</h2>
-        <p>Ejemplo: <code>http://localhost:9900/account/owner/{id}/prestamo/{cantidad}</code></p>
-        <p><strong>GET:</strong> Comprobar si el préstamo es válido</p>
-        <p><strong>Respuestas:</strong></p>
-        <ul>
-            <li>200 -> OK</li>
-            <li>400 -> BAD REQUEST</li>
-        </ul>
-        <p><strong>ACCEPT:</strong> {JSON/XML}</p>
-        <p><strong>CONTENT-TYPE:</strong> {JSON}</p>
-        <p><strong>Resultado:</strong> Es válido || No válido</p>
-    </div>
+## /account/{accountId}
+
+- **Ejemplo:** `http://localhost:9900/account/{id}`
+- **Método:** `PUT` - Modifica una cuenta de un usuario
+- **Respuestas:**
+  - `202 ACCEPTED`
+  - `400 BAD REQUEST`
+- **ACCEPT:** `JSON/XML`
+- **CONTENT-TYPE:** `JSON`
+- **BODY:**
+
+    ```json
+    {
+        "balance": "int"
+    }
+    ```
+
+## /account/add
+
+- **Ejemplo:** `http://localhost:9900/account/add`
+- **Método:** `PUT` - Añadir balance a una cuenta de un usuario
+- **Respuestas:**
+  - `202 ACCEPTED`
+  - `400 BAD REQUEST`
+- **ACCEPT:** `JSON/XML`
+- **CONTENT-TYPE:** `JSON`
+- **BODY:**
+
+    ```json
+    {
+        "idCuenta": "int",
+        "idPropietario": "int",
+        "dinero": "int"
+    }
+    ```
+
+## /account/withdraw
+
+- **Ejemplo:** `http://localhost:9900/account/withdraw`
+- **Método:** `PUT` - Retirar balance de una cuenta de un usuario
+- **Respuestas:**
+  - `202 ACCEPTED`
+  - `400 BAD REQUEST`
+- **ACCEPT:** `JSON/XML`
+- **CONTENT-TYPE:** `JSON`
+- **BODY:**
+
+    ```json
+    {
+        "idCuenta": "int",
+        "idPropietario": "int",
+        "dinero": "int"
+    }
+    ```
+
+## /account/owner/{id}/prestamo/{cantidad}
+
+- **Ejemplo:** `http://localhost:9900/account/owner/{id}/prestamo/{cantidad}`
+- **Método:** `GET` - Comprobar si el préstamo es válido
+- **Respuestas:**
+  - `200 OK`
+  - `400 BAD REQUEST`
+- **ACCEPT:** `JSON/XML`
+- **CONTENT-TYPE:** `JSON`
+- **Resultado:** `Es válido || No válido`
