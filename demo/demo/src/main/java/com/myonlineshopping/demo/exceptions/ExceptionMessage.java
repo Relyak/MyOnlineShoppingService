@@ -1,4 +1,4 @@
-package com.myonlineshopping.demo.exception;
+package com.myonlineshopping.demo.exceptions;;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.myonlineshopping.demo.exception;
+package com.myonlineshopping.demo.exceptions;
 
 public class GlobalException extends RuntimeException {
     public static final long serialVersionUID = 1L;

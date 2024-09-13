@@ -1,4 +1,4 @@
-package com.myonlineshopping.demo.exception;
+package com.myonlineshopping.demo.exceptions;
 
 public class AccountNotfoundException extends GlobalException {
     protected static final long serialVersionUID = 2L;
