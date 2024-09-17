@@ -51,7 +51,7 @@ public class AccountController {
 
     @DeleteMapping("/{accountId}")
     public ResponseEntity<Account> deleteCuenta(@PathVariable("accountId") @Min(0) Long accountId) {
-        System.out.println("Borrando cuenta::::");
+
         iAccountService.deleteAccountById(accountId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
