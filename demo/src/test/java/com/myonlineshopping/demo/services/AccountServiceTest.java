@@ -29,6 +29,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 class AccountServiceTest {
 
     // TODO: Las excepciones que se catchean son genéricas porque no temos custom implementadas
+    // Uno de los métodos interesantes para checkear sería el de añadir el de crear cuenta
+    // aún así no devuelve nada, quizás por un error de diseño
 
     @Mock
     IAccountRepository repo;

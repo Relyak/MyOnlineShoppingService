@@ -10,11 +10,11 @@ PERSISTENCIA KAYLER
       
   -> totalBalance(id_owner)
     	-> givenTotalBalanceWhenEsValidoIdCuentaThenNotNull (id_owner correcto)
-      	-> givenTotalBalanceWhenNoEsValidoIdCuentaThenException (id_owner = null)
+      	-> givenTotalBalanceWhenNoEsValidoIdCuentaThenNull (id_owner = null)
       
   -> findByOwnerId(id_owner)
      	-> givenFindByOwnerIdWhenEsValidaThenFind(id_owner correcto)
-        -> givenFindByOwnerIdWhenNoEsValidaThenException(id_owner null)
+        -> givenFindByOwnerIdWhenNoEsValidaThenEmpty (id_owner null)
       
   -> save(account)
     	-> givenSaveWhenAccountIsValidThenSave(account)
