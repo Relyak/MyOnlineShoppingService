@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -18,9 +19,10 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
 @DataJpaTest()
 @Sql(value = "classpath:data.sql")
+@ComponentScan(basePackages = "com.myonlineshopping.demo.repository")
 class IAccountRepositoryTest {
 
     @Autowired
