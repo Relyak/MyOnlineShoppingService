@@ -52,8 +52,13 @@ public class AccountController {
     @DeleteMapping("/{accountId}")
     public ResponseEntity<Account> deleteCuenta(@PathVariable("accountId") @Min(0) Long accountId) {
 
-        iAccountService.deleteAccountById(accountId);
+        try {
+            iAccountService.deleteAccountById(accountId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
     @Transactional
     @DeleteMapping("/owner/{ownerId}")

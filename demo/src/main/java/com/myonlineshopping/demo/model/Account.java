@@ -36,6 +36,6 @@ public class Account {
     private Customer owner;
 
 
-
-
+    public Account(int i, String personal, int i1, String date) {
+    }
 }

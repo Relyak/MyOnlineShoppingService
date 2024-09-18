@@ -4,11 +4,13 @@ import com.myonlineshopping.demo.dto.AccountDTO;
 import com.myonlineshopping.demo.dto.Balance;
 import com.myonlineshopping.demo.exceptions.AccountNotfoundException;
 import com.myonlineshopping.demo.model.Account;
+import com.myonlineshopping.demo.services.IAccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class AcconuntControllerTest {
 
     @Autowired
     AccountController accountController;
+    @Autowired
+    IAccountService iAccountService;
 
     @Test
     public void givenAddBalanceWhenAddBalanceValidThenAccepted() {
@@ -32,7 +36,7 @@ public class AcconuntControllerTest {
 
         ResponseEntity<AccountDTO> response = accountController.addBalance(balance);
 
-        // Verificar que el status sea 202 ACCEPTED
+
         assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.ACCEPTED.value());
 
         // Verificar que los datos del objeto AccountDTO son correctos
@@ -95,11 +99,45 @@ public class AcconuntControllerTest {
     }
 
     @Test
-    public void givenAccountWhenDeleteByCustomerThenIsInvalit () {}
+    public void givenAccountWhenDeleteByCustomerThenIdIsNotAllowed() throws Exception {
+        // ID no permitido
+        Long notAllowedId = 9L;
 
+        // Llamada al controlador para eliminar la cuenta con el ID no permitido
+        ResponseEntity<Account> response = accountController.deleteCuenta(notAllowedId);
 
+        // Verificar que el cuerpo de la respuesta sea nulo, ya que no se encontró una cuenta para este ID
+        assertThat(response.getBody(), is(nullValue()));
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
+    @Test
+    public void givenValidOwnerIdAndAmount_whenCheckPrestamo_thenValid() {
+        // Parámetros de prueba
+        Long ownerId = 1L; // ID de usuario válido
+        Integer cantidad = 500; // Cantidad de préstamo solicitada
 
+        // Llamada al endpoint
+        ResponseEntity<String> response = accountController.checkPrestamo(ownerId, cantidad);
+
+        // Verificar el estado de la respuesta
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+
+        // Verificar que el cuerpo de la respuesta sea "Es valido"
+        assertThat(response.getBody(), is("Es valido"));
+    }
+
+    @Test
+    public void givenValidOwnerIdAndAmount_whenCheckPrestamo_thenHigherAllowed() {
+        int ownerId = 1;
+        Integer cantidad = 277000;
+        Boolean response = iAccountService.checkPrestamo(cantidad, ownerId);
+
+        // Verificar que el préstamo no es permitido (por ser una cantidad alta)
+        assertThat(response, is(false));
+    }
 
 }
+
+
 
 
