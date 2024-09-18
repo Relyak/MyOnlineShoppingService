@@ -1,28 +1,15 @@
 package com.myonlineshopping.demo.repository;
 
-import com.myonlineshopping.demo.dto.Balance;
-import com.myonlineshopping.demo.exceptions.AccountNotfoundException;
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.model.Customer;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,17 +48,8 @@ class IAccountRepositoryTest {
 
     @Test
     void givenAddMoneyWhenAccountEsValidaThenSave() {
-        Optional<Account> accParaAdd = iAccountRepository.findById(1L);
-        int dinero = 10230;
-        int total = dinero + accParaAdd.get().getBalance();
-        accParaAdd.get().setBalance(total);
-        iAccountRepository.save(accParaAdd.get());
-        assertThat(total).isEqualTo(accParaAdd.get().getBalance());
-        // TO DO: Este metodo deberia funcionar pero por algun motivo no hace el cambio
-        /*
-        iAccountRepository.addMoney(accParaAdd.get().getId(), accParaAdd.get().getOwner().getId(), dinero);
-        assertThat(total).isEqualTo(accParaAdd.get().getBalance());*/
-
+        iAccountRepository.addMoney(1L, 1L, 200);
+        assertThat(1200).isEqualTo(iAccountRepository.findById(1L).get().getBalance());
     }
 
     @Test
@@ -89,12 +67,8 @@ class IAccountRepositoryTest {
 
     @Test
     void givenWithdrawMoneyWhenIsValidThenSave() {
-        Optional<Account> accParaAdd = iAccountRepository.findById(1L);
-        int dinero = 30;
-        int total = accParaAdd.get().getBalance() - dinero;
-        accParaAdd.get().setBalance(total);
-        iAccountRepository.save(accParaAdd.get());
-        assertThat(total).isEqualTo(accParaAdd.get().getBalance());
+        iAccountRepository.withdrawMoney(1L, 1L, 200);
+        assertThat(800).isEqualTo(iAccountRepository.findById(1L).get().getBalance());
     }
 
     @Test
