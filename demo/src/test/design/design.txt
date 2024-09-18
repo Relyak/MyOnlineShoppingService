@@ -61,12 +61,13 @@ VISTA - José
 
 Integración entre servicio y persistencia:
 
-  -> givenAddMoneyWhen
-  	-> givenAddMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
-      	-> givenAddMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
-  -> givenWithdrawMoney
-    	-> givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
-      	-> givenWithdrawMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
+
+  -> givenGetCuentasDeUnUsuario
+  	-> givenGetCuentasDeUnUsuario_whenValidOwnerId_thenGetCuentas
+      	-> givenAddMoney_whenNoMatchingOwnerAndAccountId_Then404
+  -> givenPostCuenta
+    	-> givenPostCuenta_whenValidOwnerId_thenCreated
+      	-> givenPostCuenta_whenValidOwnerId_thenBadRequest
       
 Integración entre vista y servicio:    
 
