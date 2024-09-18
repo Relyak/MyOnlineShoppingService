@@ -60,11 +60,11 @@ VISTA - José
   INTEGRACIÓN - EDUARDO:
   
   -> givenAddMoneyWhen
-  	-> givenAddMoney_whenValid_ThenAddMoney
-      	-> givenAddMoney_whenNoValid_ThenAddMoney
-  -> getByCustomer_id
-    	-> givenGetByCustomer_id_whenValid_ThenListAccounts(todo correcto)
-      	-> givenGetByCustomer_id_whenNotCustomer_ThenException(customer = null)
+  	-> givenAddMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
+      	-> givenAddMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
+  -> givenWithdrawMoney
+    	-> givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
+      	-> givenWithdrawMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
       
     
 	• Para validar la integración entre la capa de vista y servicio (2 escenarios significativos).
