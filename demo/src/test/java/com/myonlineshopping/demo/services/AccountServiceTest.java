@@ -90,6 +90,13 @@ class AccountServiceTest {
         ).isInstanceOf(Exception.class);
     }
 
+    @Test
+    public void givenUpdateAccount_whenCustomerNull_ThenException(){
+        assertThatThrownBy(
+                () -> service.updateAccount(testAccount, null)
+        ).isInstanceOf(Exception.class);
+    }
+
     // Get customer by id
     @Test
     public void givenGetByCustomerId_whenValid_ThenListAccounts(){
@@ -126,6 +133,24 @@ class AccountServiceTest {
         assertThat(service.checkPrestamo(amount, balance), is(false));
     }
 
+    @Test
+    public void givenCheckPrestamo_whenAmountNull_thenException(){
+        final int balance = testAccount.getBalance();
+
+        assertThatThrownBy(
+                () -> service.checkPrestamo(null, balance))
+                .isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void givenCheckPrestamo_whenBalanceNull_thenException(){
+        final int amount = 124;
+
+        assertThatThrownBy(
+                () -> service.checkPrestamo(amount, null))
+                .isInstanceOf(Exception.class);
+    }
+
     // add money
     @Test
     public void givenAddMoney_whenValid_thenUpdatedAccount(){
@@ -135,6 +160,7 @@ class AccountServiceTest {
         Mockito.when(
                 repo.findById(testCustomer.getId()))
                 .thenReturn(Optional.of(testAccount));
+
         Account account = service.addMoney(testAccount.getId(),
                 testAccount.getOwner().getId(),
                 toAdd);
