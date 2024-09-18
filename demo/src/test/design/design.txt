@@ -48,12 +48,22 @@ VISTA - José
   -> addMoney
     	-> givenAddBalanceWhenAddBalanceValidThenAccepted
         -> givenAddBalanceWhenAddBalanceNegativeThenPreconditionFailed
-      
-    -> updateAccount
-    -> getByCustomer_id
-    -> checkPrestamo
-    -> deleteByCustomer (OPTIONAL)
-  
+
+  -> getByCustomer_id
+        -> givenAccountWhenGetByCustomer_idThenValid
+        -> givenAccountWhenGetByCustomer_idThenNegative  //Arroja una excepcion
+
+  -> checkPrestamo
+        -> givenValidOwnerIdAndAmount_whenCheckPrestamo_thenValid
+        -> givenValidOwnerIdAndAmount_whenCheckPrestamo_thenHigherAllowed
+
+  -> deleteByCustomer
+        -> givenAccountWhenDeleteByCustomerThenIsOK
+        -> givenAccountWhenDeleteByCustomerThenIdIsNotAllowed
+
+
+
+
   
     __________________________________________________________________________________
 	
