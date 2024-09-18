@@ -1,0 +1,76 @@
+PERSISTENCIA KAYLER
+----------------------------------------------------------------------------------
+  -> addMoney(id_cuenta, id_customer, cantidad)
+    	-> givenAddMoneyWhenAccountEsValidaThenSave (todos los datos correctos)
+      	-> givenAddMoney_whenIdCuentaNull_thenException (id_cuenta = null, demás correcto)
+  
+  -> withdrawMoney(id_cuenta, id_customer, cantidad)
+    	-> givenWithdrawMoneyWhenIsValidThenSave (todos los datos correctos)
+      	-> givenWithdrawMoneyWhenIsNotValidThenException (id_cuenta = null, demás correcto)
+      
+  -> totalBalance(id_owner)
+    	-> givenTotalBalanceWhenEsValidoIdCuentaThenNotNull (id_owner correcto)
+      	-> givenTotalBalanceWhenNoEsValidoIdCuentaThenException (id_owner = null)
+      
+  -> findByOwnerId(id_owner)
+     	-> givenFindByOwnerIdWhenEsValidaThenFind(id_owner correcto)
+        -> givenFindByOwnerIdWhenNoEsValidaThenException(id_owner null)
+      
+  -> save(account)
+    	-> givenSaveWhenAccountIsValidThenSave(account)
+        -> givenSaveWhenAccountNotValidThenException(account)
+      
+  -> find (account)
+    	-> givenAccountWhenIdIsNotNullThenFind(account)
+        -> givenAccountWhenIdIsNullThenException 
+
+----------------------------------------------------------------------------------
+SERVICIO Lluís
+  -> updateAccount                                                                        
+    	-> givenUpdateAccount_whenValid_ThenUpdatedAccount (todo correcto)
+      	-> givenUpdateAccount_whenOwnerIdNull_ThenException (owner_id = null)
+      
+  -> getByCustomer_id
+    	-> givenGetByCustomerId_whenValid_ThenListAccounts (todo correcto)
+      	-> givenGetByCustomerId_whenNotCustomer_ThenException (customer = null)
+      
+  -> CheckAccount
+    	-> givenCheckAccount_whenValid_thenTrue (todo correcto, se le da)
+      	-> givenCheckAccount_whenNotValid_thenFalse (todo correcto, no se le da)
+      
+  -> addMoney
+    	-> givenAddMoney_whenValind_thenAccount (todo correcto, devuelve cuenta)
+      	-> givenAddMoney_whenNotAccountId_thenException (devuelve excepción)
+
+----------------------------------------------------------------------------------
+VISTA - José
+
+  -> addMoney
+    	-> givenAddBalanceWhenAddBalanceValidThenAccepted
+        -> givenAddBalanceWhenAddBalanceNegativeThenPreconditionFailed
+      
+    -> updateAccount
+    -> getByCustomer_id
+    -> checkPrestamo
+    -> deleteByCustomer (OPTIONAL)
+  
+  
+    __________________________________________________________________________________
+	
+  INTEGRACIÓN - EDUARDO:
+  
+  -> givenAddMoneyWhen
+  	-> givenAddMoney_whenValid_ThenAddMoney
+      	-> givenAddMoney_whenNoValid_ThenAddMoney
+  -> getByCustomer_id
+    	-> givenGetByCustomer_id_whenValid_ThenListAccounts(todo correcto)
+      	-> givenGetByCustomer_id_whenNotCustomer_ThenException(customer = null)
+      
+    
+	• Para validar la integración entre la capa de vista y servicio (2 escenarios significativos).
+  -> saveAccount                                                         
+    	->givenSaveAccountWhenValidAccountThenCreated
+      	->givenSaveAccountWhenIdCustomerNullThenException
+  -> getByCustomer_id
+    	->givenGetCustomerByIdWhenValidIdThenOk
+      	->givenGetCustomerByIdWhenInvalidIdThenException
