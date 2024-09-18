@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.assertThat;
+
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest()
@@ -24,19 +29,19 @@ class IAccountRepositoryTest {
     @Test
     void givenFindByOwnerIdWhenEsValidaThenFind() {
         List<Account> ac = iAccountRepository.findByOwnerId(1L);
-        assertThat(ac).isNotNull();
-        assertThat(ac.get(0).getOwner().getId()).isEqualTo(1L);
+        assertThat(ac, is(notNullValue()));
+        assertThat(ac.get(0).getOwner().getId(), is(1L));
     }
 
     @Test
     void givenFindByOwnerIdWhenNoEsValidaThenEmpty() {
-        assertThat(iAccountRepository.findByOwnerId(999L)).isEmpty();
+        assertThat(iAccountRepository.findByOwnerId(999L),is(empty()));
     }
 
     @Test
     void givenSaveWhenAccountIsValidThenSave() {
         Account ac = new Account(null, "Corriente", 1230, "2000-12-10", new Customer(1L));
-        assertThat(iAccountRepository.save(ac)).isNotNull();
+        assertThat(iAccountRepository.save(ac),is(notNullValue()));
     }
 
     @Test
@@ -49,12 +54,12 @@ class IAccountRepositoryTest {
     @Test
     void givenAddMoneyWhenAccountEsValidaThenSave() {
         iAccountRepository.addMoney(1L, 1L, 200);
-        assertThat(1200).isEqualTo(iAccountRepository.findById(1L).get().getBalance());
+        assertThat(1200, is(equalTo(iAccountRepository.findById(1L).get().getBalance())));
     }
 
     @Test
     void givenAccountWhenIdIsNotNullThenFind() {
-        assertThat(iAccountRepository.findById(1L).get()).isNotNull();
+        assertThat((iAccountRepository.findById(1L).get()),is(notNullValue()));
     }
 
     @Test
@@ -68,7 +73,7 @@ class IAccountRepositoryTest {
     @Test
     void givenWithdrawMoneyWhenIsValidThenSave() {
         iAccountRepository.withdrawMoney(1L, 1L, 200);
-        assertThat(800).isEqualTo(iAccountRepository.findById(1L).get().getBalance());
+        assertThat(800,is(equalTo(iAccountRepository.findById(1L).get().getBalance())));
     }
 
     @Test
@@ -85,12 +90,12 @@ class IAccountRepositoryTest {
     @Test
     void givenTotalBalanceWhenEsValidoIdCuentaThenNotNull() {
         int totalB = iAccountRepository.totalBalance(1L);
-        assertThat(totalB).isNotNull();
-        assertThat(totalB).isGreaterThan(0);
+        assertThat(totalB,is(notNullValue()));
+        assertThat(totalB,is(greaterThan(0)));
     }
 
     @Test
     void givenTotalBalanceWhenNoEsValidoIdCuentaThenNull() {
-        assertThat(iAccountRepository.totalBalance(320L)).isNull();
+        assertThat((iAccountRepository.totalBalance(320L)),is(nullValue()));
     }
 }

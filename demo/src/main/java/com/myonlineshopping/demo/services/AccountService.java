@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -74,13 +75,21 @@ public class AccountService implements IAccountService{
         accountRepository.addMoney(cuentaId,idCustomer,dinero);
         return accountRepository.findById(cuentaId).get();
     }
+
+    @Autowired
+    private EntityManager em;
+
     @Transactional
-    public Account withdrawMoney(Long cuentaId,Long cantidad, Integer customer) throws Exception{
-        if((accountRepository.findById(cuentaId).get().getBalance())>=cantidad){
-            accountRepository.withdrawMoney(cuentaId,cantidad,customer);
-            return accountRepository.findById(cuentaId).get();
+    public Account withdrawMoney(Long cuentaId,Long customer, Integer cantidad) throws Exception{
+        Optional<Account> account = accountRepository.findById(cuentaId);
+        if((account.get().getBalance())>=cantidad){
+            accountRepository.withdrawMoney(cuentaId, customer, cantidad);
+            em.refresh(account.get());
+            return account.get();
         }else
             throw new Exception();
+
+
     }
     public Integer totalBalance(Long id){
 
