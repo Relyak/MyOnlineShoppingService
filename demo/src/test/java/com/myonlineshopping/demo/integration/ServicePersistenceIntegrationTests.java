@@ -63,9 +63,10 @@ public class ServicePersistenceIntegrationTests {
         // Al llamar al método addMoney, si la cuenta recibida se encuentra entre las cuentas
         // del cliente, se puede sumar el dinero.
 
-        service.addMoney(6L, 5L, 200);
+        // cogemos la cuenta que nos devuelve el servicio para poder comparar
+        Account account = service.addMoney(1L, 1L, 200);
 
-        assertThat(acc.getBalance(), is(equalTo(700)));
+        assertThat(account.getBalance(), is(equalTo(1200)));
     }
 
     @Test
