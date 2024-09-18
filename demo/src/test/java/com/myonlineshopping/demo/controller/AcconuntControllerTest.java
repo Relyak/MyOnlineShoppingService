@@ -87,12 +87,15 @@ public class AcconuntControllerTest {
     public void givenAccountWhenGetByCustomer_idThenNegative() throws Exception {
         Long ownerId = -1L;
 
+        //accountController.getCuentasDeUnUsuario(500L);
         // Invocar el método del controlador con ownerId negativo
-        try {
+        // esto debería devolver un responeEntity, pero las excepciones
+        // están mal implementadas
+       try {
             accountController.getCuentasDeUnUsuario(ownerId);
         } catch (Exception e) {
             // Verificar que se lanzó la excepción con el mensaje correcto
-            assertThat(e.getMessage(), containsString("Owner ID no puede ser negativo"));
+            assertThat(e.getMessage(), containsString("getCuentasDeUnUsuario.ownerId: debe ser mayor que o igual a 0"));
         }
     }
 

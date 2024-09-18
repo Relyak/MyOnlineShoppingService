@@ -19,8 +19,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+//import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+//import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -75,8 +79,8 @@ class AccountServiceTest {
         final int newBalance = 500;
         testAccount.setBalance(newBalance);
         Account account = service.updateAccount(testAccount, testCustomer.getId());
-        assertThat(account).isNotNull();
-        assertThat(account.getBalance()).isEqualTo(newBalance);
+        assertThat(account, is(notNullValue()));
+        assertThat(account.getBalance(), is(testAccount.getBalance()));
     }
 
     @Test
@@ -94,7 +98,7 @@ class AccountServiceTest {
 
         List<Account> accounts = service.getByCustomer_id(testCustomer.getId());
 
-        assertThat(accounts.size()).isGreaterThan(0);
+        assertThat(accounts.size(), is(greaterThan(0)));
     }
     
     @Test
@@ -110,8 +114,7 @@ class AccountServiceTest {
         final int amount = (int)(testAccount.getBalance() * 0.7f);
         final int balance = testAccount.getBalance();
 
-        assertThat(service.checkPrestamo(amount, balance))
-                .isTrue();
+        assertThat(service.checkPrestamo(amount, balance), is(true));
 
     }
 
@@ -120,8 +123,7 @@ class AccountServiceTest {
         final int amount = (int)(testAccount.getBalance() * 0.9f);
         final int balance = testAccount.getBalance();
 
-        assertThat(service.checkPrestamo(amount, balance))
-                .isFalse();
+        assertThat(service.checkPrestamo(amount, balance), is(false));
     }
 
     // add money
@@ -137,7 +139,7 @@ class AccountServiceTest {
                 testAccount.getOwner().getId(),
                 toAdd);
 
-        assertThat(account).isNotNull();
+        assertThat(account, is(notNullValue()));
     }
 
     @Test

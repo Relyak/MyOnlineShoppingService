@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -72,35 +73,27 @@ public class ServicePersistenceIntegrationTests {
     @Test
     public void givenAddMoney_whenNotMatchingOwnerAndAccountId_ThenThrowException() {
 
-        service.addMoney(300L, 100L, 200);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            // Código que lanza la excepción
-            throw new IllegalArgumentException("Número inválido");
-        });
+        // La excepción es genérica porque el servicio no tiene implementada una custom
+        assertThrows(Exception.class,
+                () -> service.addMoney(300L, 1L, 300));
     }
 
     @Test
-    public void givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney() {
+    public void givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenWithdrawMoney() throws Exception{
 
         // Al llamar al método addMoney, si la cuenta recibida se encuentra entre las cuentas
         // del cliente, se puede sumar el dinero.
 
-        service.addMoney(200L, 100L, 200);
-
-        assertThat(acc.getBalance(), is(equalTo(300)));
+        Account account = service.withdrawMoney(1L, 1L, 200);
+        assertThat(account.getBalance(), is(equalTo(800)));
     }
 
     @Test
     public void givenWithdrawMoney_whenNotMatchingOwnerAndAccountId_ThenThrowException() {
-
-        service.addMoney(300L, 100L, 200);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            // Código que lanza la excepción
-            throw new IllegalArgumentException("Número inválido");
-        });
-    }}
+        assertThrows(Exception.class,
+                () -> service.withdrawMoney(300L, 1L, 300));
+    }
+}
 
 
 
