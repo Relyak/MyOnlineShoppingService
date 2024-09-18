@@ -139,7 +139,7 @@ class AccountServiceTest {
                 testAccount.getOwner().getId(),
                 toAdd);
 
-        assertThat(account, is(notNullValue());
+        assertThat(account, is(notNullValue()));
     }
 
     @Test
