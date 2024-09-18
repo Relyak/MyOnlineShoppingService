@@ -2,70 +2,149 @@ package com.myonlineshopping.demo.services;
 
 import com.myonlineshopping.demo.model.Account;
 import com.myonlineshopping.demo.model.Customer;
-import org.junit.jupiter.api.Assertions;
+import com.myonlineshopping.demo.repository.IAccountRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ComponentScan(basePackages = {"com.myonlineshopping.demo.services"})
 class AccountServiceTest {
-    @Autowired
-    IAccountService iAccountService;
 
+    // TODO: Las excepciones que se catchean son genéricas porque no temos custom implementadas
+
+    @Mock
+    IAccountRepository repo;
+    @InjectMocks
+    AccountService service;
+
+    Customer testCustomer;
+
+    Account testAccount;
+
+    @BeforeEach
+    public void createCustomer(){
+        testCustomer = new Customer(
+                1L,
+                "Pepote",
+                "pepote@mail.es",
+                List.of()
+        );
+
+        testAccount = new Account(
+                1L,
+                "Personal",
+                100,
+                LocalDate.now().toString(),
+                testCustomer);
+
+        testAccount.setOwner(testCustomer);
+    }
+
+
+
+    // Update account
     @Test
-    void getAllAccounts() {
-        List<Account> cuentas = iAccountService.getAllAccounts();
-        Assertions.assertNotNull(cuentas);
+    public void givenUpdateAccount_whenValid_ThenUpdatedAccount(){
+
+        Mockito.when(repo.findById(testAccount.getId())).
+                thenReturn(Optional.of(testAccount));
+
+        Mockito.when(repo.save(testAccount))
+                .thenReturn(testAccount);
+
+        final int newBalance = 500;
+        testAccount.setBalance(newBalance);
+        Account account = service.updateAccount(testAccount, testCustomer.getId());
+        assertThat(account).isNotNull();
+        assertThat(account.getBalance()).isEqualTo(newBalance);
     }
 
     @Test
-    void getByCustomer_id() {
-        List <Account> cuentas = iAccountService.getByCustomer_id(1L);
-        Assertions.assertNotNull(cuentas);
+    public void givenUpdateAccount_whenAccountNull_ThenException(){
+        assertThatThrownBy(
+                () -> service.updateAccount(null, testCustomer.getId())
+        ).isInstanceOf(Exception.class);
+    }
+
+    // Get customer by id
+    @Test
+    public void givenGetByCustomerId_whenValid_ThenListAccounts(){
+        Mockito.when(repo.findByOwnerId(testCustomer.getId()))
+                .thenReturn(List.of(testAccount));
+
+        List<Account> accounts = service.getByCustomer_id(testCustomer.getId());
+
+        assertThat(accounts.size()).isGreaterThan(0);
+    }
+    
+    @Test
+    public void givenGetByCustomerId_whenNotCustomer_ThenException(){
+        assertThatThrownBy(
+                () -> service.getByCustomer_id(null))
+                .isInstanceOf(Exception.class);
+    }
+
+    // Check prestamo
+    @Test
+    public void givenCheckPrestamo_whenValid_thenTrue(){
+        final int amount = (int)(testAccount.getBalance() * 0.7f);
+        final int balance = testAccount.getBalance();
+
+        assertThat(service.checkPrestamo(amount, balance))
+                .isTrue();
+
+    }
+
+     @Test
+    public void givenCheckPrestamo_whenNotValid_thenFalse(){
+        final int amount = (int)(testAccount.getBalance() * 0.9f);
+        final int balance = testAccount.getBalance();
+
+        assertThat(service.checkPrestamo(amount, balance))
+                .isFalse();
+    }
+
+    // add money
+    @Test
+    public void givenAddMoney_whenValid_thenUpdatedAccount(){
+        final int toAdd = 500;
+
+        testAccount.setBalance(testAccount.getBalance() + toAdd);
+        Mockito.when(
+                repo.findById(testCustomer.getId()))
+                .thenReturn(Optional.of(testAccount));
+        Account account = service.addMoney(testAccount.getId(),
+                testAccount.getOwner().getId(),
+                toAdd);
+
+        assertThat(account).isNotNull();
     }
 
     @Test
-    void getAccount() {
-        Account cuenta = iAccountService.getAccount(1L).get();
-        Assertions.assertNotNull(cuenta);
+    public void givenAddMoney_whenCuentaIdNull_thenException(){
+
+        assertThatThrownBy(() -> service.addMoney(
+                null,
+                testCustomer.getId(),
+                200)).isInstanceOf(Exception.class);
     }
 
-    @Test
-    @Transactional
-    void saveAccount() {
-        /* En preparación
-        Account cuenta = new Account(null,"Personal",3500,"2024-10-09",new Customer(2L));
-
-        iAccountService.saveAccount(cuenta);
-
-        Assertions.assertEquals(iAccountService.getAccount(6L).get().getBalance(),3500);*/
-
-    }
-
-    @Test
-    void updateAccount() {
-    }
-
-    @Test
-    void deleteAccount() {
-    }
-
-    @Test
-    void deleteAccountById() {
-    }
-
-    @Test
-    void deleteByCustomer() {
-    }
-
-    @Test
-    void addMoney() {
-    }
-
-    @Test
-    void withdrawMoney() {
-    }
 }
