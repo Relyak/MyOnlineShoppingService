@@ -35,12 +35,31 @@ public class AccountControllerTestRestTemplate {
         assertThat(response.getBody(), is(notNullValue()));
     }
     @Test
+    public void givenGetCuentasDeUnUsuarioWhenNoExistsThenNoExist() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        assertThrows(Exception.class, () -> {
+            ResponseEntity<Account[]> response = restTemplate.getForEntity("http://localhost:" + port + "/account/owner/131", Account[].class);
+        });
+    }
+    @Test
     public void givenCheckPrestamoWhenOkThenOk() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String>response = restTemplate.getForEntity("http://localhost:" + port + "/account/owner/1/prestamo/100",String.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(),is(containsString("Es valido")));
+        assertThat(response.getBody(), is(notNullValue()));
+    }
+    @Test
+    public void givenCheckPrestamoWhenNoValidoThenOk() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String>response = restTemplate.getForEntity("http://localhost:" + port + "/account/owner/1/prestamo/-103200",String.class);
+        assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
         assertThat(response.getBody(), is(notNullValue()));
     }
 
