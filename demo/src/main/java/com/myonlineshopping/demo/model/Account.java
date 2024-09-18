@@ -25,7 +25,7 @@ public class Account {
     @NotNull
     @Size(min = 3, max = 15, message = "Debe tener entre 3 y 15 letras ")
     private String type;
-    @NotBlank
+    //@NotBlank
     @NotNull
     private int balance;
     @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "El formato de la fecha debe ser YYYY-MM-DD")
