@@ -81,14 +81,14 @@ public class ServicePersistenceIntegrationTests {
     }
 
     @Test
-    public void givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney() {
+    public void givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney() throws Exception {
 
         // Al llamar al método addMoney, si la cuenta recibida se encuentra entre las cuentas
         // del cliente, se puede sumar el dinero.
 
-        service.addMoney(200L, 100L, 200);
+        Account account2 = service.withdrawMoney(1L, 1L, 200);
 
-        assertThat(acc.getBalance(), is(equalTo(300)));
+        assertThat(account2.getBalance(), is(equalTo(800)));
     }
 
     @Test
