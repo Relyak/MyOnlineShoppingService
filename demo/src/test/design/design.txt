@@ -58,7 +58,9 @@ VISTA - José
     __________________________________________________________________________________
 	
   INTEGRACIÓN - EDUARDO:
-  
+
+Integración entre servicio y persistencia:
+
   -> givenAddMoneyWhen
   	-> givenAddMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
       	-> givenAddMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
@@ -66,8 +68,8 @@ VISTA - José
     	-> givenWithdrawMoney_whenMatchingOwnerAndAccountId_ThenAddMoney
       	-> givenWithdrawMoney_whenNoMatchingOwnerAndAccountId_ThenThrowException
       
-    
-	• Para validar la integración entre la capa de vista y servicio (2 escenarios significativos).
+Integración entre vista y servicio:    
+
   -> saveAccount                                                         
     	->givenSaveAccountWhenValidAccountThenCreated
       	->givenSaveAccountWhenIdCustomerNullThenException
