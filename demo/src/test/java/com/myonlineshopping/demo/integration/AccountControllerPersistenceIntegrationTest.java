@@ -25,7 +25,7 @@ public class AccountControllerPersistenceIntegrationTest {
 
 
     @Test
-    void givenGetCuentasDeUnUsuario_whenInvalidOwnerId_then () throws Exception {
+    void givenGetCuentasDeUnUsuario_whenValidOwnerId_thenGetCuentas () throws Exception {
 
         /*Product nuevoProd = new Product();
         nuevoProd.setName("Nuevo Prod");
@@ -33,8 +33,8 @@ public class AccountControllerPersistenceIntegrationTest {
         mvc.perform(get("/products").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name", is("Nuevo Prod")));*/
-
+                .andExpect(jsonPath("$[0].name", is("Nuevo Prod")));
+        */
         mvc.perform(get("/accounts/owner/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect((ResultMatcher) content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
