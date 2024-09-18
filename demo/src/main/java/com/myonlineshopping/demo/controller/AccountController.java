@@ -34,14 +34,14 @@ public class AccountController {
     }
 
     @ApiOperation(value = "Pillar un producto por su id", notes = "Devuelve un producto a partir de su id")
-    @ApiResponses(value={
-            @ApiResponse(code=200, message="Producto correcto"),
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Producto correcto"),
             @ApiResponse(code = 404, message = "Producto no encontrado"),
             @ApiResponse(code = 302, message = "Error al introducir id")
     })
     @GetMapping("/owner/{ownerId}")
     public ResponseEntity<List<AccountDTO>> getCuentasDeUnUsuario(
-            @ApiParam(name="id", value = "Id del producto", example = "1")
+            @ApiParam(name = "id", value = "Id del producto", example = "1")
             @PathVariable @Min(0) Long ownerId) throws AccountNotfoundException {
         List<Account> account = null;
 
@@ -53,13 +53,13 @@ public class AccountController {
     }
 
     @ApiOperation(value = "Añadir nueva cuenta", notes = "Añade una nueva cuenta para el usuario seleccionado")
-    @PostMapping(value = "/owner/{ownerId}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/owner/{ownerId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AccountDTO> postCuenta(
             @Valid
             @RequestBody Account account,
             @PathVariable
             @Min(0)
-            @ApiParam(name="id", value= "Id del usuario a quien pertenecerá la cuenta", example="1")
+            @ApiParam(name = "id", value = "Id del usuario a quien pertenecerá la cuenta", example = "1")
             Long ownerId) {
         iAccountService.saveAccount(account, ownerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(AccountDTO.createAccountDto(account));
@@ -67,33 +67,25 @@ public class AccountController {
 
     @ApiOperation(value = "Borra una cuenta", notes = "Borra la cuenta seleccionada")
     @DeleteMapping("/{accountId}")
-<<<<<<< HEAD
+
     public ResponseEntity<Account> deleteCuenta(@PathVariable("accountId") @Min(0) Long accountId) {
 
         try {
             iAccountService.deleteAccountById(accountId);
-=======
-    public ResponseEntity<Account> deleteCuenta(
-            @PathVariable("accountId")
-            @Min(0)
-            @ApiParam(name="id", value = "Id de la cuenta a borrar", example = "1")
-            Long accountId) {
-        System.out.println("Borrando cuenta::::");
-        iAccountService.deleteAccountById(accountId);
->>>>>>> main
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }catch (Exception e){
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
     }
+
     @Transactional
     @DeleteMapping("/owner/{ownerId}")
     @ApiOperation(value = "Borra todas las cuentas de un usuario", notes = "Borra todas las cuentas asociadas al usuario seleccionado")
     public ResponseEntity<Account> deleteAllCuentas(
             @PathVariable("ownerId")
             @Min(0)
-            @ApiParam(name="ownerId", value = "Id del dueño de las cuentas", example = "1")
+            @ApiParam(name = "ownerId", value = "Id del dueño de las cuentas", example = "1")
             Long ownerId) {
         System.out.println("Borrando cuenta::::");
         iAccountService.deleteByCustomer(ownerId);
@@ -101,7 +93,7 @@ public class AccountController {
     }
 
     @ApiOperation(value = "actualiza una cuenta", notes = "Actualiza la cuenta determinada a partir del id de esta")
-    @PutMapping(value="/{accountId}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/{accountId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AccountDTO> putCuenta(
             @Valid
             @RequestBody
@@ -111,27 +103,29 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AccountDTO.createAccountDto(acc));
     }
 
-    @PutMapping(value="/add",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AccountDTO> addBalance(@Valid @RequestBody Balance balance) {
         Account acc = iAccountService.addMoney(balance.getIdCuenta(), balance.getIdPropietario(), balance.getDinero());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AccountDTO.createAccountDto(acc));
     }
 
-    @PutMapping(value="/withdraw",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/withdraw", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<AccountDTO> withDrawBalance(@RequestBody Balance balance) throws Exception {
         Account acc = iAccountService.withdrawMoney(balance.getIdCuenta(), balance.getIdPropietario(), balance.getDinero());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(AccountDTO.createAccountDto(acc));
     }
-    @GetMapping(value="/owner/{ownerId}/prestamo/{cantidad}")
-    public ResponseEntity<String> checkPrestamo( @PathVariable @Min(0) Long ownerId,@PathVariable @Min(0)  Integer cantidad){
+
+    @GetMapping(value = "/owner/{ownerId}/prestamo/{cantidad}")
+    public ResponseEntity<String> checkPrestamo(@PathVariable @Min(0) Long
+                                                        ownerId, @PathVariable @Min(0) Integer cantidad) {
         Integer balanceTotal = iAccountService.totalBalance(ownerId);
-        boolean prestamo = iAccountService.checkPrestamo(cantidad,balanceTotal);
-        if(prestamo){
+        boolean prestamo = iAccountService.checkPrestamo(cantidad, balanceTotal);
+        if (prestamo) {
             return ResponseEntity.ok("Es valido");
-        }else{
+        } else {
             return ResponseEntity.ok("No valido");
         }
 
     }
-
 }
+
