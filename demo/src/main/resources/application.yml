@@ -1,6 +1,7 @@
 spring:
   application.name: "demo"
   profiles.active: "dev"
+app.jwt.secret: SECRET-KEY-VALUE
 
 --- #prod
 spring:
@@ -23,6 +24,7 @@ server:
   servlet.context-path: "/api/v1"
 logging:
   level.root: ERROR
+
 --- #dev
 
 spring:
