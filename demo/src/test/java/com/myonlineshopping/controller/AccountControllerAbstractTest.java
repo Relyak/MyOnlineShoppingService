@@ -6,12 +6,9 @@ import com.myonlineshopping.model.ERole;
 import com.myonlineshopping.model.User;
 import com.myonlineshopping.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
-@TestConfiguration
 public abstract class AccountControllerAbstractTest {
 
     @Autowired

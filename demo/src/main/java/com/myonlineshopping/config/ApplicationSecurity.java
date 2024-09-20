@@ -83,7 +83,7 @@ public class ApplicationSecurity {
 //                        .antMatchers("/**").permitAll() // BARRA LIBRE
 //                        .antMatchers("/products/**").hasAuthority(ERole.USER.name())
 //                                .antMatchers(HttpMethod.GET, "/products/**").hasAnyAuthority(ERole.USER.name(), ERole.ADMIN.name())//Para acceder a productos debe ser USER
-//                                .antMatchers("/products/**").hasAnyAuthority(ERole.ADMIN.name()) //admin puede hacer de todo
+//                                .antMatchers("/products/**").hasAnyAuthority(ERole.ADMIN.name()) //admin puede hacer de todo probar cambiar el orden de director
                                 .antMatchers(HttpMethod.GET, "/account/**").hasAnyAuthority(ERole.CAJERO.name(),ERole.DIRECTOR.name())
                                 .antMatchers( "/account/**").hasAnyAuthority(ERole.DIRECTOR.name())
                                 .anyRequest().authenticated()
