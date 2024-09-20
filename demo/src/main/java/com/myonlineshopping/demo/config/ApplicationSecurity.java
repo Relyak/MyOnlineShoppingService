@@ -1,11 +1,13 @@
 package com.myonlineshopping.demo.config;
 
 import com.myonlineshopping.demo.jwt.JwtTokenFilter;
+import com.myonlineshopping.demo.model.ERole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -67,6 +69,7 @@ public class ApplicationSecurity {
 
         http
                 .authorizeHttpRequests((requests) -> requests
+
                                 .antMatchers("/auth/login",
                                         "/docs/**",
                                         "/users",
@@ -81,7 +84,8 @@ public class ApplicationSecurity {
 //                        .antMatchers("/products/**").hasAuthority(ERole.USER.name())
 //                                .antMatchers(HttpMethod.GET, "/products/**").hasAnyAuthority(ERole.USER.name(), ERole.ADMIN.name())//Para acceder a productos debe ser USER
 //                                .antMatchers("/products/**").hasAnyAuthority(ERole.ADMIN.name()) //admin puede hacer de todo
-                                .antMatchers("/products/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/account/**").hasAnyAuthority(ERole.CAJERO.name(),ERole.DIRECTOR.name())
+                                .antMatchers( "/account/**").hasAnyAuthority(ERole.DIRECTOR.name())
                                 .anyRequest().authenticated()
                 );
 
